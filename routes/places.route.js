@@ -3,12 +3,12 @@ const Place = require("../models/Places.model");
 const {createPlaces, enlistPlaces, detailPlaces} = require("../controllers/place.controller")
 
 //create place
-router.post("/create", createPlaces)
+router.post("/createpLaces", createPlaces)
 
 //get all places
-router.get("/", enlistPlaces)
+router.get("/enlistplaces", enlistPlaces)
 
 //get details of one place
-router.get("/detail/:id", detailPlaces)
+router.get("/detailplaces", detailPlaces)
 
 module.exports = router;
