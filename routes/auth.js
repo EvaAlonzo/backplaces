@@ -7,8 +7,8 @@ getUserLogged} = require("../controllers/auth.controller");
 
 router.post("/signup", signupProcess);
 router.post("/login", loginProcess);
-router.post("/logout", logoutProcess);
-router.get("/getUser", verifyToken, getUserLogged)
+router.delete("/logout", logoutProcess);
+router.get("/getuser", verifyToken, getUserLogged)
 
 
 module.exports = router

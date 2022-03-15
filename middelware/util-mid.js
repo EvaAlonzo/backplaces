@@ -24,7 +24,7 @@ exports.verifyToken = (req, res, next) => {
 
 //JWT
 exports.createJWT = (user) =>{
-    returnjwt.sign({
+    return jwt.sign({
         userId: user._id,
         email: user.email,
     }, process.env.SECRET, {expiresIn:'24hrs'}).split('.')

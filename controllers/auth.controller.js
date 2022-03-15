@@ -4,7 +4,9 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const saltRounds = 10;
 
-const { createJWT, cleaRes, clearRes } = require("../middelware/util-mid");
+const { createJWT, clearRes } = require("../middelware/util-mid");
+
+//signup
 exports.signupProcess = (req, res, next) => {
     const { email, password, confirmPassword, ...rest} = req.body;
 
@@ -48,7 +50,7 @@ exports.signupProcess = (req, res, next) => {
                 sameSite: true,
                 secure:false
             })
-            const newUser = cleaRes(user.toObject())
+            const newUser = clearRes(user.toObject())
             res.status(201).json({ user:newUser})
         })
         .catch((error) => {
@@ -66,7 +68,7 @@ exports.signupProcess = (req, res, next) => {
 }
 
 //login
-exports.loginProcess = async (Req, res, next) => {
+exports.loginProcess = async (req, res, next) => {
     try{
         const { email, password } = req.body;
         const user= await User.findOne({email})

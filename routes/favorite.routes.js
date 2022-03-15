@@ -5,16 +5,18 @@ const {findFavorites,
     editFavorites, 
     deleteFavorites} = require("../controllers/favorites.controller");
 
+const { verifyToken} = require("../middelware/util-mid")
+
 //traer favorites
-router.get("/findfavorites",findFavorites);
+router.get("/findfavorites", verifyToken, findFavorites);
 
 //unir a la favorites
-router.post("/createfavorites",createFavorites);
+router.post("/createfavorites",verifyToken, createFavorites);
 
 //edit favorites
-router.post("/editfavorites",editFavorites)
+router.post("/editfavorites", verifyToken, editFavorites)
 
 //delete
-router.post("/deletefavorites",deleteFavorites);
+router.post("/deletefavorites",verifyToken, deleteFavorites);
 
 module.exports = router
