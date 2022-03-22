@@ -1,11 +1,15 @@
 const Place = require("../models/Places.model");
 const Upload = require("../helpers/cloudinary")
+const {verifyToken} = require( "../middelware/util-mid")
 
 //createplaces
 exports.createPlaces = async (req, res, next) => {
-        try{
+    console.log("ya llegamos", req.body)
+            const userCreator = req.user
             const place = {...req.body};
-            const result = await Place.create(place)
+            console.log("eluser", userCreator)
+        try{
+            const result = await Place.create({...place, _userCreator:userCreator._id})
             res.status(200).json({ result })
         }catch(error){
             res.status(400).json({errorMessage:error})
@@ -16,9 +20,7 @@ exports.createPlaces = async (req, res, next) => {
 exports.enlistPlaces = async(req, res, next) =>{
     try{
         const result = await Place.find()
-        res.status(200).json({result})
-        console.log("enlist places")
-        res.status(200).json({ menssage: "edit places"})
+        res.status(200).json({ message: "enlist places", result})
     }catch(error){
         res.status(400).json({errorMessage:error})
     }
@@ -31,50 +33,38 @@ exports.detailPlaces = async(req, res, next)=>{
         const result = await Place.findById(id)
         res.status(200).json({result})
         console.log("detail places")
-        res.status(200).json({ menssage: "detail places"})
+        res.status(200).json({ message: "detail places"})
     }catch(error){
         res.status(400).json({errorMessage:error})
     }
 };
 
 //edit places
-// exports.editPlaces = async(req, res, next)=>{
-//     const{id} = req.params
-//     const {
-//         title,
-//         direction,
-//         description,
-//         images,
-//         rating,
-//         status
-//     } = req.body
+exports.editPlaces = async(req, res, next)=>{
+    const id = req.params.id
+        console.log("id",id)
+    try{  
+        const userCreator = req.user
+        const placesFromDB = await Place.find({
+            _userCreator: userCreator._id,
+            _id:id
+        });
+        console.log("placesedit", placesFromDB)
+        if(!placesFromDB.length){
+            return res.status(401)({errorMessage: "you don't have permission"})
+        }
 
-//     let picture
-//     try{
+        const updatePlace = await Place.findByIdAndUpdate( 
+            id, 
+            {...req.body})
+            
+        res.status(200).json({ message: "editPlaces" })
         
-//         // const userCreator = req.session.curretUser._id
-//         // const placesFromDB = await Place.find({
-//         //     _userCreator: creatorUser
-//         // })
-//         // if (placesFromDB.length === 0){
-//         //     zeroPlaces = true
-//         // }
-//         // res.render("places/place", { 
-//         //     place: placesFromDB
-//         // }) 
-
-//         //arriba el get de placesedit?
-
-//         if (req.file){
-//             picture = req.file.path
-//         }
-
-        
-//         res.status(200).json({ menssage: "editplaces"})
-//     }catch(error){
-//         res.status(400).json({errorMessage:error})
-//     }
-// }
+    } catch(error) {
+        console.log("error", error)
+        res.status(400).json({errorMessage:error})
+    }
+}
 
 //place delete
 exports.deletePlaces = async (req, res, next) =>{
@@ -82,7 +72,7 @@ exports.deletePlaces = async (req, res, next) =>{
 
     try{
         await Place.findByIdAndDelete(id);
-        res.redirect('/places');
+        res.redirect('/places');//aqui solo va sattus o mesnaje y se valida en el front
     } catch(error){
         res.status(400).json({errorMessage:error})
     }

@@ -1,11 +1,12 @@
 const {Schema, model} = require('mongoose');
 
 const placeSchema = new Schema({
+    _userCreator: { type: Schema.Types.ObjectId, ref: "User"},
     title:{
         type: String,
         required: [true, "This file is required"]
     },
-    direction:{
+    address:{
         type: String,
         required: [true, "This file is required"]
     },

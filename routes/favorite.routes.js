@@ -11,12 +11,12 @@ const { verifyToken} = require("../middelware/util-mid")
 router.get("/findfavorites", verifyToken, findFavorites);
 
 //unir a la favorites
-router.post("/createfavorites",verifyToken, createFavorites);
+router.post("/createfavorites", createFavorites);
 
 //edit favorites
-router.post("/editfavorites", verifyToken, editFavorites)
+router.post("/editfavorites",  editFavorites)
 
 //delete
-router.post("/deletefavorites",verifyToken, deleteFavorites);
+router.post("/deletefavorites", deleteFavorites);
 
 module.exports = router

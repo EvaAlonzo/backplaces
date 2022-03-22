@@ -8,8 +8,13 @@ const { createJWT, clearRes } = require("../middelware/util-mid");
 
 //signup
 exports.signupProcess = (req, res, next) => {
-    const { email, password, confirmPassword, ...rest} = req.body;
+    const { username, email, password, confirmPassword, ...rest} = req.body;
 
+    console.log("elusername", req.body)
+
+    if(!username){
+        return res.status(400).json({ errorMessage:"This field is required, you can change it later"})
+    }
     if(!email){
         return res.status(400).json({ errorMessage: "please, send a mail"})
     }
@@ -31,8 +36,9 @@ exports.signupProcess = (req, res, next) => {
         .then((salt) => bcrypt.hash(password,salt))
         .then((hashedPassword) => {
             return User.create({
+                username,
                 email,
-                password: hashedPassword
+                password: hashedPassword     
             })
         })
         .then((user) => {
@@ -54,6 +60,7 @@ exports.signupProcess = (req, res, next) => {
             res.status(201).json({ user:newUser})
         })
         .catch((error) => {
+            console.log("error", error)
             if(error instanceof mongoose.Error.ValidationError){
                 return res.status(400).json({ errorMessage: error.message})
             }

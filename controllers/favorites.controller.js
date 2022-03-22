@@ -1,4 +1,6 @@
 const Favorite = require("../models/Favorite.model");
+const Place = require("../models/Places.model");
+const Upload = require("../helpers/cloudinary")
 
 //show
 exports.findFavorites = async(req,res,next) => {
@@ -40,9 +42,9 @@ exports.editFavorites = async (req, res, next) => {
 //delete
 exports.deleteFavorites = async (req,res, next) => {
     try{
-        // const {_id:_client} = req.user
-        // await Favorite.findOneAndDelete({_client})
-        // res.status(200).json({result:"borrado"})
+        const {_id:_client} = req.user
+        await Favorite.findOneAndDelete({_client})
+        res.status(200).json({result:"borrado"})
         console.log("delete fav")
         res.status(200).json({ menssage: "delete fav"})
     }catch(error){

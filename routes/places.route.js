@@ -3,19 +3,23 @@ const Place = require("../models/Places.model");
 const {createPlaces,
     enlistPlaces, 
     detailPlaces,
-    deletePlaces } = require("../controllers/place.controller")
+    deletePlaces,
+    editPlaces} = require("../controllers/place.controller")
 const { verifyToken  } = require("../middelware/util-mid")
 
 //create place
-router.post("/createplaces", createPlaces)
+router.post("/createplaces", verifyToken, createPlaces)
 
 //get all places
 router.get("/enlistplaces", enlistPlaces)
 
+//editplaces
+router.put("/editplaces/:id", verifyToken, editPlaces)
+
 //get details of one place
-router.get("/detailplaces/:id",  detailPlaces)
+router.get("/detailplaces/:id", verifyToken, detailPlaces)
 
 //deleteplaces
-router.delete("/deleteplaces/:id", deletePlaces)
+router.delete("/deleteplaces/:id", verifyToken, deletePlaces)
 
 module.exports = router;
