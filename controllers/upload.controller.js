@@ -14,7 +14,7 @@ exports.uploadsProcess = async (req, res, next) => {
                 })
             })
         })
-    }
+    };
     const uploader = async (path) => uploads(path,'docs');
 
     if(req.method === "POST"){
@@ -27,8 +27,12 @@ exports.uploadsProcess = async (req, res, next) => {
                 urls.push({ newPath, name:file.originalname })
             }
             res.status(200).json({result: urls, msg: "file uploaded successfully"})
+        } else {
+            const { path } = req.file
+            const newPath = await uploader(path)
+            res.status(200).json({ result:{ newPath, name:req.file.originalname }, msg:"Image Upload Correctly"})
         }
-    }else{
-        res.status(405).json({errorMessage: `${req.method} method not allowed`})
+    }else {
+        res.status(450).jason({errorMessage:`${req.method} method not allowed`})
     }
 }

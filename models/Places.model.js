@@ -23,7 +23,7 @@ const placeSchema = new Schema({
     },
     status:{
         type: String,
-        enum:["I Found","Want To visit", "Visited"],
+        enum:["I Found","Pending", "Done"],
         default: "I Found"
     }
 },{

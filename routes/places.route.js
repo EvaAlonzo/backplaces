@@ -5,10 +5,11 @@ const {createPlaces,
     detailPlaces,
     deletePlaces,
     editPlaces} = require("../controllers/place.controller")
-const { verifyToken  } = require("../middelware/util-mid")
+const { verifyToken  } = require("../middelware/util-mid");
+const { uploadsProcess } = require("../controllers/upload.controller");
 
 //create place
-router.post("/createplaces", verifyToken, createPlaces)
+router.post("/createplaces", verifyToken, createPlaces, uploadsProcess)
 
 //get all places
 router.get("/enlistplaces", enlistPlaces)
