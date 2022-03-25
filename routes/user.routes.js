@@ -9,6 +9,6 @@ const { verifyToken  } = require("../middelware/util-mid")
 router.get("/detailUser/:id", verifyToken, detaillUser);
 
 //editplaces
-router.put("/editUser/:id", verifyToken, editUser);
+router.put("/edituser", verifyToken, editUser);
 
 module.exports = router;

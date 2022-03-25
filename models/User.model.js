@@ -18,7 +18,7 @@ const userSchema = new Schema(
     },
     profile_pic: {
       type: String,
-      default: "https://res.cloudinary.com/dhgfid3ej/image/upload/v1558806705/asdsadsa_iysw1l.jpg",
+      default: "https://res.cloudinary.com/evaalonzo/image/upload/v1648162745/UserDefaullt_tgpmio.png",
     }
   },
   {

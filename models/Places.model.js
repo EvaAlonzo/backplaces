@@ -25,6 +25,10 @@ const placeSchema = new Schema({
         type: String,
         enum:["I Found","Pending", "Done"],
         default: "I Found"
+    },
+    favorite: {
+        type: Boolean,
+        default: false
     }
 },{
     timestamps: true
